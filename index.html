@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Flattener - OCR Optimized</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .card-content {
+            padding: 40px;
+        }
+
+        .upload-area {
+            border: 3px dashed #d1d5db;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f9fafb;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            border-color: #4f46e5;
+            background: #f0f4ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #4f46e5;
+            background: #e0e7ff;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #9ca3af;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: #4f46e5;
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .settings-section {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .settings-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #374151;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .setting-label {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        .dpi-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dpi-input {
+            width: 100px;
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .dpi-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .dpi-presets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .dpi-preset {
+            padding: 6px 12px;
+            background: white;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .dpi-preset:hover {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+
+        .dpi-preset.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        .quality-toggle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quality-toggle:hover {
+            border-color: #4f46e5;
+        }
+
+        .quality-toggle.active {
+            border-color: #4f46e5;
+            background: #f0f4ff;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #d1d5db;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #4f46e5;
+        }
+
+        .toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-knob {
+            transform: translateX(26px);
+        }
+
+        .quality-info {
+            flex: 1;
+        }
+
+        .quality-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .quality-description {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .process-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .process-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .process-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .progress-section.active {
+            display: block;
+        }
+
+        .progress-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .progress-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-status.uploading {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .progress-status.processing {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .progress-status.completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .progress-status.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-message {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .result-card {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            color: #059669;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 10px;
+        }
+
+        .result-message {
+            color: #047857;
+            margin-bottom: 20px;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #059669;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .download-button:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .tips-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .tips-header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .tips-content {
+            padding: 40px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .tip-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 4px solid #10b981;
+        }
+
+        .tip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+
+        .tip-list {
+            list-style: none;
+        }
+
+        .tip-list li {
+            padding: 5px 0;
+            color: #6b7280;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tip-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .dpi-explanation {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #1e40af;
+        }
+
+        .file-info {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .file-info.active {
+            display: block;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .api-config {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .api-config h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .api-config p {
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+
+        .api-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .api-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .dpi-presets {
+                justify-content: center;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff40;
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-file-pdf"></i> PDF Flattener</h1>
+            <p>OCR Optimized • High Quality • Advanced Compression</p>
+        </div>
+
+        <div class="main-card">
+            <div class="card-header">
+                <h2>Upload & Process PDF</h2>
+                <p>Convert your PDFs to flattened images optimized for OCR processing</p>
+            </div>
+            <div class="card-content">
+                <div class="api-config">
+                    <h3><i class="fas fa-cog"></i> Backend Configuration</h3>
+                    <p>Enter your Render backend URL (e.g., https://your-app.onrender.com)</p>
+                    <input type="text" id="apiUrl" class="api-input" placeholder="https://your-backend.onrender.com" />
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">Drag & drop your PDF file here</div>
+                    <div class="upload-subtext">or click to browse files</div>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+                </div>
+
+                <div class="file-info" id="fileInfo">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-title">
+                        <i class="fas fa-cog"></i> Processing Settings
+                    </div>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label class="setting-label">DPI Setting</label>
+                            <div class="dpi-selector">
+                                <input type="number" id="dpiInput" class="dpi-input" value="600" min="400" max="2400" step="50">
+                                <div class="dpi-presets">
+                                    <div class="dpi-preset" data-dpi="400">400</div>
+                                    <div class="dpi-preset" data-dpi="500">500</div>
+                                    <div class="dpi-preset active" data-dpi="600">600</div>
+                                    <div class="dpi-preset" data-dpi="800">800</div>
+                                    <div class="dpi-preset" data-dpi="1200">1200</div>
+                                </div>
+                            </div>
+                            <div class="dpi-explanation">
+                                <strong>600 DPI</strong> is recommended for most documents. Higher DPI = better OCR accuracy but larger files.
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label class="setting-label">Quality Mode</label>
+                            <div class="quality-toggle" id="qualityToggle">
+                                <div class="toggle-switch" id="toggleSwitch">
+                                    <div class="toggle-knob"></div>
+                                </div>
+                                <div class="quality-info">
+                                    <div class="quality-title">Maximum OCR Quality</div>
+                                    <div class="quality-description">Enhanced rendering with anti-aliasing for best OCR results</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="process-button" id="processButton" disabled>
+                    <i class="fas fa-magic"></i>
+                    Flatten PDF
+                </button>
+
+                <div class="progress-section" id="progressSection">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Processing PDF</div>
+                            <div class="progress-status" id="progressStatus">uploading</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-message" id="progressMessage">Uploading file...</div>
+                    </div>
+                </div>
+
+                <div class="result-section" id="resultSection">
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="result-title">Processing Complete!</div>
+                        <div class="result-message" id="resultMessage"></div>
+                        <a href="#" class="download-button" id="downloadButton">
+                            <i class="fas fa-download"></i>
+                            Download Flattened PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <div class="tips-header">
+                <h2><i class="fas fa-lightbulb"></i> OCR Optimization Tips</h2>
+                <p>Get the best results from your PDF flattening</p>
+            </div>
+            <div class="tips-content">
+                <div class="tips-grid" id="tipsGrid">
+                    <!-- Tips will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedFile = null;
+        let currentTaskId = null;
+        let statusCheckInterval = null;
+        let apiBaseUrl = '';
+
+        // DOM elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const apiUrlInput = document.getElementById('apiUrl');
+        const dpiInput = document.getElementById('dpiInput');
+        const dpiPresets = document.querySelectorAll('.dpi-preset');
+        const qualityToggle = document.getElementById('qualityToggle');
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const processButton = document.getElementById('processButton');
+        const progressSection = document.getElementById('progressSection');
+        const progressStatus = document.getElementById('progressStatus');
+        const progressFill = document.getElementById('progressFill');
+        const progressMessage = document.getElementById('progressMessage');
+        const resultSection = document.getElementById('resultSection');
+        const resultMessage = document.getElementById('resultMessage');
+        const downloadButton = document.getElementById('downloadButton');
+        const tipsGrid = document.getElementById('tipsGrid');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOCRTips();
+            setupEventListeners();
+            loadApiUrl();
+        });
+
+        function setupEventListeners() {
+            // API URL configuration
+            apiUrlInput.addEventListener('input', updateApiUrl);
+
+            // File upload
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+
+            // DPI settings
+            dpiInput.addEventListener('input', updateDpiExplanation);
+            dpiPresets.forEach(preset => {
+                preset.addEventListener('click', () => selectDpiPreset(preset));
+            });
+
+            // Quality toggle
+            qualityToggle.addEventListener('click', toggleQualityMode);
+
+            // Process button
+            processButton.addEventListener('click', processFile);
+        }
+
+        function loadApiUrl() {
+            const savedUrl = localStorage.getItem('pdfFlattenerApiUrl');
+            if (savedUrl) {
+                apiUrlInput.value = savedUrl;
+                apiBaseUrl = savedUrl;
+            }
+        }
+
+        function updateApiUrl() {
+            apiBaseUrl = apiUrlInput.value.trim();
+            localStorage.setItem('pdfFlattenerApiUrl', apiBaseUrl);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFile(file) {
+            if (file.type !== 'application/pdf') {
+                alert('Please select a PDF file.');
+                return;
+            }
+
+            selectedFile = file;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.classList.add('active');
+            processButton.disabled = false;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function selectDpiPreset(preset) {
+            dpiPresets.forEach(p => p.classList.remove('active'));
+            preset.classList.add('active');
+            dpiInput.value = preset.dataset.dpi;
+            updateDpiExplanation();
+        }
+
+        function updateDpiExplanation() {
+            const dpi = dpiInput.value;
+            const explanation = document.querySelector('.dpi-explanation');
+            let text = '';
+            
+            if (dpi <= 500) {
+                text = `<strong>${dpi} DPI</strong> - Good for clear, typed documents.`;
+            } else if (dpi <= 700) {
+                text = `<strong>${dpi} DPI</strong> - Optimal for most invoices and forms (recommended).`;
+            } else if (dpi <= 1000) {
+                text = `<strong>${dpi} DPI</strong> - Enhanced quality for documents with small text.`;
+            } else {
+                text = `<strong>${dpi} DPI</strong> - Ultra-high quality for challenging documents.`;
+            }
+            
+            explanation.innerHTML = text;
+        }
+
+        function toggleQualityMode() {
+            const isActive = qualityToggle.classList.contains('active');
+            qualityToggle.classList.toggle('active');
+            toggleSwitch.classList.toggle('active');
+        }
+
+        async function processFile() {
+            if (!selectedFile) return;
+            if (!apiBaseUrl) {
+                alert('Please enter your backend API URL first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('dpi', dpiInput.value);
+            formData.append('max_ocr_quality', qualityToggle.classList.contains('active'));
+
+            // Show progress section
+            progressSection.classList.add('active');
+            resultSection.classList.remove('active');
+            processButton.disabled = true;
+            processButton.innerHTML = '<div class="loading-spinner"></div> Processing...';
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    currentTaskId = result.task_id;
+                    startStatusCheck();
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        function startStatusCheck() {
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+            }
+
+            statusCheckInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/api/status/${currentTaskId}`);
+                    const status = await response.json();
+
+                    updateProgress(status);
+
+                    if (status.status === 'completed' || status.status === 'error') {
+                        clearInterval(statusCheckInterval);
+                        if (status.status === 'completed') {
+                            showSuccess(status);
+                        } else {
+                            showError(status.message);
+                        }
+                    }
+                } catch (error) {
+                    clearInterval(statusCheckInterval);
+                    showError('Failed to check processing status');
+                }
+            }, 1000);
+        }
+
+        function updateProgress(status) {
+            progressStatus.textContent = status.status;
+            progressStatus.className = `progress-status ${status.status}`;
+            progressFill.style.width = `${status.progress || 0}%`;
+            progressMessage.textContent = status.message;
+        }
+
+        function showSuccess(status) {
+            progressSection.classList.remove('active');
+            resultSection.classList.add('active');
+            resultMessage.textContent = status.message;
+            downloadButton.href = `${apiBaseUrl}/api/download/${currentTaskId}`;
+            downloadButton.download = status.download_filename;
+            
+            processButton.disabled = false;
+            processButton.innerHTML = '<i class="fas fa-magic"></i> Flatten PDF';
+        }
+
+        function showError(message) {
+            progressSection.classList.remove('active');
+            resultSection.classList.add('active');
+            resultMessage.textContent = `Error: ${message}`;
+            downloadButton.style.display = 'none';
+            
+            processButton.disabled = false;
+            processButton.innerHTML = '<i class="fas fa-magic"></i> Flatten PDF';
+        }
+
+        async function loadOCRTips() {
+            try {
+                // Try to load from backend if API URL is set, otherwise use default tips
+                if (apiBaseUrl) {
+                    const response = await fetch(`${apiBaseUrl}/api/ocr-tips`);
+                    const tips = await response.json();
+                    displayTips(tips);
+                } else {
+                    displayDefaultTips();
+                }
+            } catch (error) {
+                console.error('Failed to load OCR tips:', error);
+                displayDefaultTips();
+            }
+        }
+
+        function displayDefaultTips() {
+            const defaultTips = {
+                "dpi_settings": {
+                    "400": "Basic quality for very clear documents",
+                    "500": "Good for clear, typed documents", 
+                    "550": "Balanced quality between standard and optimal",
+                    "600": "Optimal for most invoices and forms (recommended)",
+                    "700": "Enhanced quality for documents with small text",
+                    "800": "Better for poor quality scans or complex layouts",
+                    "900": "High quality for very small text or faded documents",
+                    "1000": "Ultra-high quality for extremely difficult documents",
+                    "1100": "Near-maximum quality for the most challenging scans",
+                    "1200": "Maximum quality for very difficult documents",
+                    "1500": "Professional-grade quality for critical documents",
+                    "1800": "Ultra-professional quality for forensic-level OCR",
+                    "2400": "Maximum possible quality for the most challenging documents"
+                },
+                "general_tips": [
+                    "Use higher DPI for documents with small text",
+                    "Grayscale mode is automatically used for better text recognition",
+                    "Higher DPI = larger file sizes but better OCR accuracy",
+                    "Advanced compression preserves maximum quality",
+                    "DPI is NEVER reduced - quality is always preserved",
+                    "Files may exceed 20MB to maintain maximum quality"
+                ],
+                "max_quality_mode": [
+                    "Enables anti-aliasing for smoother text edges",
+                    "Uses 1.5x effective DPI for rendering (e.g., 1200 DPI becomes 1800 DPI rendering)",
+                    "Optimized matrix transformations for better text clarity",
+                    "Recommended for the most challenging documents",
+                    "Will significantly increase processing time and file sizes",
+                    "Advanced compression maintains maximum quality without DPI reduction"
+                ],
+                "troubleshooting": [
+                    "If OCR still fails, try scanning the original document at 300+ DPI",
+                    "Ensure documents are flat and properly aligned",
+                    "Avoid shadows and ensure good lighting when scanning",
+                    "Clean documents before scanning to remove dust/smudges"
+                ]
+            };
+            displayTips(defaultTips);
+        }
+
+        function displayTips(tips) {
+            const tipCards = [
+                {
+                    title: 'DPI Settings',
+                    items: Object.entries(tips.dpi_settings).slice(0, 6).map(([dpi, desc]) => `${dpi} DPI: ${desc}`)
+                },
+                {
+                    title: 'General Tips',
+                    items: tips.general_tips
+                },
+                {
+                    title: 'Maximum Quality Mode',
+                    items: tips.max_quality_mode
+                },
+                {
+                    title: 'Troubleshooting',
+                    items: tips.troubleshooting
+                }
+            ];
+
+            tipsGrid.innerHTML = tipCards.map(card => `
+                <div class="tip-card">
+                    <div class="tip-title">${card.title}</div>
+                    <ul class="tip-list">
+                        ${card.items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // Initialize DPI explanation
+        updateDpiExplanation();
+    </script>
+</body>
+</html>
+
