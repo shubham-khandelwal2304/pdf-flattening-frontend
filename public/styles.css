@@ -568,17 +568,147 @@ body {
     font-size: 1rem;
 }
 
-@media (max-width: 768px) {
+/* Mobile First Responsive Design */
+
+/* Small Mobile Devices (320px - 480px) */
+@media (max-width: 480px) {
     .container {
         padding: 10px;
+        max-width: 100%;
     }
 
     .header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+
+    .header p {
+        font-size: 1rem;
     }
 
     .card-content {
-        padding: 20px;
+        padding: 15px;
+    }
+
+    .card-header {
+        padding: 20px 15px;
+    }
+
+    .card-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .settings-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .dpi-presets {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .dpi-preset {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    .quality-toggle {
+        padding: 15px;
+    }
+
+    .quality-title {
+        font-size: 1rem;
+    }
+
+    .process-button {
+        width: 100%;
+        max-width: none;
+        padding: 16px 24px;
+        font-size: 1.1rem;
+        margin: 20px 0;
+    }
+
+    .upload-area {
+        padding: 30px 15px;
+        margin: 15px 0;
+    }
+
+    .upload-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .upload-text {
+        font-size: 1.1rem;
+    }
+
+    .upload-subtext {
+        font-size: 0.85rem;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .tips-content {
+        padding: 15px;
+    }
+
+    .tip-card {
+        padding: 15px;
+    }
+
+    .tip-title {
+        font-size: 1rem;
+    }
+
+    .tip-list {
+        font-size: 0.9rem;
+    }
+
+    .progress-card, .result-card {
+        padding: 20px 15px;
+    }
+
+    .progress-title, .result-title {
+        font-size: 1.1rem;
+    }
+
+    .download-button {
+        width: 100%;
+        max-width: none;
+        padding: 14px 20px;
+        font-size: 1rem;
+    }
+
+    .file-info {
+        padding: 15px;
+    }
+
+    .file-name {
+        font-size: 0.9rem;
+    }
+
+    .file-size {
+        font-size: 0.8rem;
+    }
+}
+
+/* Mobile Devices (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 2.2rem;
+    }
+
+    .card-content {
+        padding: 25px;
     }
 
     .settings-grid {
@@ -588,6 +718,19 @@ body {
 
     .dpi-presets {
         justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .process-button {
+        width: 60%;
+        max-width: 300px;
+        padding: 18px 28px;
+        font-size: 1.15rem;
+    }
+
+    .download-button {
+        width: 60%;
+        max-width: 300px;
     }
 
     .tips-grid {
@@ -597,6 +740,89 @@ body {
     
     .tips-content {
         padding: 20px;
+    }
+}
+
+/* Tablet Devices (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 20px;
+        max-width: 900px;
+    }
+
+    .header h1 {
+        font-size: 2.5rem;
+    }
+
+    .settings-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .process-button {
+        width: 40%;
+        max-width: 280px;
+    }
+
+    .download-button {
+        width: 40%;
+        max-width: 280px;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+/* Desktop and Large Screens (1025px+) */
+@media (min-width: 1025px) {
+    .container {
+        max-width: 1200px;
+        padding: 30px;
+    }
+
+    .header h1 {
+        font-size: 3rem;
+    }
+
+    .settings-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .process-button {
+        width: 30%;
+        max-width: 250px;
+    }
+
+    .download-button {
+        width: 30%;
+        max-width: 250px;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 25px;
+    }
+}
+
+/* Extra Large Screens (1440px+) */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+
+    .main-card {
+        margin-bottom: 40px;
+    }
+
+    .card-content {
+        padding: 40px;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 
