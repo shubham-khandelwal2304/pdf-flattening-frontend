@@ -424,6 +424,8 @@ body {
     max-width: 250px;
     margin: 0 auto;
     justify-content: center;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .download-button:hover {
