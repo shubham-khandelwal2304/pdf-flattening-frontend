@@ -514,38 +514,6 @@
             font-size: 0.9rem;
         }
 
-        .api-config {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .api-config h3 {
-            color: #92400e;
-            margin-bottom: 10px;
-        }
-
-        .api-config p {
-            color: #92400e;
-            font-size: 0.9rem;
-        }
-
-        .api-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 1rem;
-            margin-top: 10px;
-        }
-
-        .api-input:focus {
-            outline: none;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
 
         @media (max-width: 768px) {
             .container {
@@ -602,11 +570,6 @@
                 <p>Convert your PDFs to flattened images optimized for OCR processing</p>
             </div>
             <div class="card-content">
-                <div class="api-config">
-                    <h3><i class="fas fa-cog"></i> Backend Configuration</h3>
-                    <p>Enter your Render backend URL (e.g., https://your-app.onrender.com)</p>
-                    <input type="text" id="apiUrl" class="api-input" placeholder="https://your-backend.onrender.com" />
-                </div>
 
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">
@@ -710,7 +673,7 @@
         let selectedFile = null;
         let currentTaskId = null;
         let statusCheckInterval = null;
-        let apiBaseUrl = '';
+        let apiBaseUrl = 'https://pdf-flattening-backend.onrender.com';
 
         // DOM elements
         const uploadArea = document.getElementById('uploadArea');
@@ -718,7 +681,6 @@
         const fileInfo = document.getElementById('fileInfo');
         const fileName = document.getElementById('fileName');
         const fileSize = document.getElementById('fileSize');
-        const apiUrlInput = document.getElementById('apiUrl');
         const dpiInput = document.getElementById('dpiInput');
         const dpiPresets = document.querySelectorAll('.dpi-preset');
         const qualityToggle = document.getElementById('qualityToggle');
@@ -737,13 +699,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadOCRTips();
             setupEventListeners();
-            loadApiUrl();
         });
 
         function setupEventListeners() {
-            // API URL configuration
-            apiUrlInput.addEventListener('input', updateApiUrl);
-
             // File upload
             uploadArea.addEventListener('click', () => fileInput.click());
             uploadArea.addEventListener('dragover', handleDragOver);
@@ -764,18 +722,6 @@
             processButton.addEventListener('click', processFile);
         }
 
-        function loadApiUrl() {
-            const savedUrl = localStorage.getItem('pdfFlattenerApiUrl');
-            if (savedUrl) {
-                apiUrlInput.value = savedUrl;
-                apiBaseUrl = savedUrl;
-            }
-        }
-
-        function updateApiUrl() {
-            apiBaseUrl = apiUrlInput.value.trim();
-            localStorage.setItem('pdfFlattenerApiUrl', apiBaseUrl);
-        }
 
         function handleDragOver(e) {
             e.preventDefault();
@@ -857,10 +803,6 @@
 
         async function processFile() {
             if (!selectedFile) return;
-            if (!apiBaseUrl) {
-                alert('Please enter your backend API URL first.');
-                return;
-            }
 
             const formData = new FormData();
             formData.append('file', selectedFile);
