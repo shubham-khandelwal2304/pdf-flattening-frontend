@@ -310,6 +310,7 @@ body {
     border-radius: 15px;
     padding: 30px;
     border: 2px solid #4a4a4a;
+    text-align: center;
 }
 
 .progress-header {
@@ -372,6 +373,7 @@ body {
 .progress-message {
     color: #6b7280;
     font-size: 0.95rem;
+    text-align: center;
 }
 
 .result-section {
