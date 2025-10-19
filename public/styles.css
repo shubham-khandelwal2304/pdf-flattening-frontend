@@ -265,7 +265,9 @@ body {
 }
 
 .process-button {
-    width: 100%;
+    width: 30%;
+    max-width: 250px;
+    margin: 0 auto;
     padding: 20px 30px;
     background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     color: white;
@@ -418,6 +420,10 @@ body {
     border-radius: 8px;
     font-weight: 500;
     transition: all 0.2s ease;
+    width: 30%;
+    max-width: 250px;
+    margin: 0 auto;
+    justify-content: center;
 }
 
 .download-button:hover {
