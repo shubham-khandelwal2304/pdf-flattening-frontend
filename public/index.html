@@ -277,25 +277,28 @@
 
         .process-button {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            text-transform: none;
+            letter-spacing: 0.5px;
         }
 
         .process-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.5);
+            background: linear-gradient(135deg, #9d6cf7 0%, #8b4aed 100%);
         }
 
         .process-button:disabled {
@@ -519,6 +522,17 @@
             display: block;
         }
 
+        .file-info-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
         .file-name {
             font-weight: 500;
             color: #ffffff;
@@ -528,6 +542,35 @@
         .file-size {
             color: #6b7280;
             font-size: 0.9rem;
+        }
+
+        .refresh-button {
+            background: #8b5cf6;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+        }
+
+        .refresh-button:hover {
+            background: #9d6cf7;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .refresh-button:active {
+            transform: scale(0.95);
+        }
+
+        .refresh-button i {
+            font-size: 1rem;
         }
 
 
@@ -602,8 +645,15 @@
                 </div>
 
                 <div class="file-info" id="fileInfo">
-                    <div class="file-name" id="fileName"></div>
-                    <div class="file-size" id="fileSize"></div>
+                    <div class="file-info-content">
+                        <div class="file-details">
+                            <div class="file-name" id="fileName"></div>
+                            <div class="file-size" id="fileSize"></div>
+                        </div>
+                        <button class="refresh-button" id="refreshButton" title="Select different file">
+                            <i class="fas fa-refresh"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="settings-section">
@@ -643,8 +693,8 @@
                 </div>
 
                 <button class="process-button" id="processButton" disabled>
-                    <i class="fas fa-magic"></i>
-                    Flatten PDF
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    Select PDF File
                 </button>
 
                 <div class="progress-section" id="progressSection">
@@ -715,6 +765,7 @@
         const resultMessage = document.getElementById('resultMessage');
         const downloadButton = document.getElementById('downloadButton');
         const tipsGrid = document.getElementById('tipsGrid');
+        const refreshButton = document.getElementById('refreshButton');
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -741,6 +792,9 @@
 
             // Process button
             processButton.addEventListener('click', processFile);
+
+            // Refresh button
+            refreshButton.addEventListener('click', clearFile);
         }
 
 
@@ -781,6 +835,7 @@
             fileSize.textContent = formatFileSize(file.size);
             fileInfo.classList.add('active');
             processButton.disabled = false;
+            processButton.innerHTML = '<i class="fas fa-magic"></i> Process PDF';
         }
 
         function formatFileSize(bytes) {
@@ -789,6 +844,34 @@
             const sizes = ['Bytes', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function clearFile() {
+            // Clear selected file
+            selectedFile = null;
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Hide file info
+            fileInfo.classList.remove('active');
+            
+            // Reset button state
+            processButton.disabled = true;
+            processButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Select PDF File';
+            
+            // Hide any progress or result sections
+            progressSection.classList.remove('active');
+            resultSection.classList.remove('active');
+            
+            // Clear any existing status check interval
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+                statusCheckInterval = null;
+            }
+            
+            // Reset current task ID
+            currentTaskId = null;
         }
 
         function selectDpiPreset(preset) {
@@ -834,7 +917,7 @@
             progressSection.classList.add('active');
             resultSection.classList.remove('active');
             processButton.disabled = true;
-            processButton.innerHTML = '<div class="loading-spinner"></div> Processing...';
+            processButton.innerHTML = '<div class="loading-spinner"></div> Processing PDF...';
 
             try {
                 const response = await fetch(`${apiBaseUrl}/api/upload`, {
@@ -897,7 +980,7 @@
             downloadButton.download = status.download_filename;
             
             processButton.disabled = false;
-            processButton.innerHTML = '<i class="fas fa-magic"></i> Flatten PDF';
+            processButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Select PDF File';
         }
 
         function showError(message) {
@@ -907,7 +990,7 @@
             downloadButton.style.display = 'none';
             
             processButton.disabled = false;
-            processButton.innerHTML = '<i class="fas fa-magic"></i> Flatten PDF';
+            processButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Select PDF File';
         }
 
         function loadOCRTips() {
