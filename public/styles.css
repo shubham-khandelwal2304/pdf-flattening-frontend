@@ -382,8 +382,8 @@ body {
 }
 
 .result-card {
-    background: #f0fdf4;
-    border: 2px solid #bbf7d0;
+    background: #1a1a1a;
+    border: 2px solid #2a2a2a;
     border-radius: 15px;
     padding: 30px;
     text-align: center;
@@ -391,19 +391,19 @@ body {
 
 .result-icon {
     font-size: 3rem;
-    color: #059669;
+    color: #8b5cf6;
     margin-bottom: 15px;
 }
 
 .result-title {
     font-size: 1.3rem;
     font-weight: 600;
-    color: #065f46;
+    color: #ffffff;
     margin-bottom: 10px;
 }
 
 .result-message {
-    color: #047857;
+    color: #9ca3af;
     margin-bottom: 20px;
 }
 
@@ -412,7 +412,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 12px 24px;
-    background: #059669;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -421,7 +421,7 @@ body {
 }
 
 .download-button:hover {
-    background: #047857;
+    background: linear-gradient(135deg, #9d6cf7 0%, #8b4aed 100%);
     transform: translateY(-1px);
 }
 
