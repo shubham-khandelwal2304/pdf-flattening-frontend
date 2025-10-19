@@ -49,7 +49,7 @@ function setupEventListeners() {
     qualityToggle.addEventListener('click', toggleQualityMode);
 
     // Process button
-    processButton.addEventListener('click', processFile);
+    processButton.addEventListener('click', handleProcessButtonClick);
 
     // Refresh button
     refreshButton.addEventListener('click', clearFile);
@@ -103,6 +103,16 @@ function formatFileSize(bytes) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
+function handleProcessButtonClick() {
+    if (!selectedFile) {
+        // No file selected, trigger file selection
+        fileInput.click();
+    } else {
+        // File selected, process it
+        processFile();
+    }
+}
+
 function clearFile() {
     // Clear selected file
     selectedFile = null;
@@ -114,7 +124,7 @@ function clearFile() {
     fileInfo.classList.remove('active');
     
     // Reset button state
-    processButton.disabled = true;
+    processButton.disabled = false;
     processButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Select PDF File';
     
     // Hide any progress or result sections
