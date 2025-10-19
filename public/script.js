@@ -153,11 +153,11 @@ function updateDpiExplanation() {
     const explanation = document.querySelector('.dpi-explanation');
     let text = '';
     
-    if (dpi <= 500) {
+    if (dpi <= 600) {
         text = `<strong>${dpi} DPI</strong> - Good for clear, typed documents.`;
-    } else if (dpi <= 700) {
+    } else if (dpi <= 800) {
         text = `<strong>${dpi} DPI</strong> - Optimal for most invoices and forms (recommended).`;
-    } else if (dpi <= 1000) {
+    } else if (dpi <= 1200) {
         text = `<strong>${dpi} DPI</strong> - Enhanced quality for documents with small text.`;
     } else {
         text = `<strong>${dpi} DPI</strong> - Ultra-high quality for challenging documents.`;
@@ -170,6 +170,32 @@ function toggleQualityMode() {
     const isActive = qualityToggle.classList.contains('active');
     qualityToggle.classList.toggle('active');
     toggleSwitch.classList.toggle('active');
+    
+    if (!isActive) { // Quality mode is being turned ON
+        // If Maximum OCR Quality is enabled, set DPI to maximum (2400)
+        dpiInput.value = '2400';
+        updateDpiExplanation();
+        
+        // Update active preset to 2400 if it exists, otherwise remove active class from all
+        dpiPresets.forEach(preset => {
+            preset.classList.remove('active');
+            if (preset.dataset.dpi === '2400') {
+                preset.classList.add('active');
+            }
+        });
+    } else { // Quality mode is being turned OFF
+        // If Maximum OCR Quality is disabled, set DPI back to default (600)
+        dpiInput.value = '600';
+        updateDpiExplanation();
+        
+        // Update active preset to 600
+        dpiPresets.forEach(preset => {
+            preset.classList.remove('active');
+            if (preset.dataset.dpi === '600') {
+                preset.classList.add('active');
+            }
+        });
+    }
 }
 
 async function processFile() {
