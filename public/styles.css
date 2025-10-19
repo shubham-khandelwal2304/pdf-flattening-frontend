@@ -9,6 +9,36 @@ body {
     background: #0a0a0a;
     min-height: 100vh;
     color: #ffffff;
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+/* Hide scrollbars */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide any potential browser UI elements */
+html, body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Remove any potential arrows from specific elements */
+.container::before,
+.container::after,
+.main-card::before,
+.main-card::after,
+.card-content::before,
+.card-content::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hide any potential tooltips or arrows */
+[title]::before,
+[title]::after {
+    display: none !important;
+    content: none !important;
 }
 
 .container {
@@ -435,7 +465,7 @@ body {
     transform: translateY(-1px);
 }
 
-.tips-section {
+/* .tips-section {
     background: #1a1a1a;
     border-radius: 20px;
     border: 1px solid #2a2a2a;
@@ -484,15 +514,15 @@ body {
     position: relative;
     padding-left: 18px;
     font-size: 0.9rem;
-}
+} */
 
-.tip-list li:before {
+/* .tip-list li:before {
     content: "✓";
     position: absolute;
     left: 0;
     color: #8b5cf6;
     font-weight: bold;
-}
+} */
 
 .dpi-explanation {
     background: #1a1a1a;
@@ -648,7 +678,7 @@ body {
         font-size: 0.85rem;
     }
 
-    .tips-grid {
+    /* .tips-grid {
         grid-template-columns: 1fr;
         gap: 12px;
     }
@@ -667,7 +697,7 @@ body {
 
     .tip-list {
         font-size: 0.9rem;
-    }
+    } */
 
     .progress-card, .result-card {
         padding: 20px 15px;
@@ -733,14 +763,14 @@ body {
         max-width: 300px;
     }
 
-    .tips-grid {
+    /* .tips-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }
     
     .tips-content {
         padding: 20px;
-    }
+    } */
 }
 
 /* Tablet Devices (769px - 1024px) */
@@ -769,10 +799,10 @@ body {
         max-width: 280px;
     }
 
-    .tips-grid {
+    /* .tips-grid {
         grid-template-columns: 1fr 1fr;
         gap: 20px;
-    }
+    } */
 }
 
 /* Desktop and Large Screens (1025px+) */
@@ -801,10 +831,10 @@ body {
         max-width: 250px;
     }
 
-    .tips-grid {
+    /* .tips-grid {
         grid-template-columns: 1fr 1fr 1fr;
         gap: 25px;
-    }
+    } */
 }
 
 /* Extra Large Screens (1440px+) */
@@ -821,9 +851,9 @@ body {
         padding: 40px;
     }
 
-    .tips-grid {
+    /* .tips-grid {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
+    } */
 }
 
 .loading-spinner {

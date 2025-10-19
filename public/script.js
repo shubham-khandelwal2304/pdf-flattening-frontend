@@ -22,12 +22,12 @@ const progressMessage = document.getElementById('progressMessage');
 const resultSection = document.getElementById('resultSection');
 const resultMessage = document.getElementById('resultMessage');
 const downloadButton = document.getElementById('downloadButton');
-const tipsGrid = document.getElementById('tipsGrid');
+// const tipsGrid = document.getElementById('tipsGrid'); // Commented out - tips section removed
 const refreshButton = document.getElementById('refreshButton');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    loadOCRTips();
+    // loadOCRTips(); // Commented out - tips section removed
     setupEventListeners();
 });
 
@@ -260,38 +260,38 @@ function showError(message) {
     processButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Select PDF File';
 }
 
-function loadOCRTips() {
-    // Load concise tips directly without API call for faster loading
-    const conciseTips = [
-        {
-            title: 'Quick Tips',
-            items: [
-                '600 DPI recommended for most documents',
-                'Higher DPI = better OCR but larger files',
-                'Enable max quality for challenging documents',
-                'Use grayscale for better text recognition'
-            ]
-        },
-        {
-            title: 'Best Results',
-            items: [
-                'Scan documents flat and well-lit',
-                'Clean documents before scanning',
-                'Avoid shadows and reflections',
-                'Use 300+ DPI for original scans'
-            ]
-        }
-    ];
+// function loadOCRTips() {
+//     // Load concise tips directly without API call for faster loading
+//     const conciseTips = [
+//         {
+//             title: 'Quick Tips',
+//             items: [
+//                 '600 DPI recommended for most documents',
+//                 'Higher DPI = better OCR but larger files',
+//                 'Enable max quality for challenging documents',
+//                 'Use grayscale for better text recognition'
+//             ]
+//         },
+//         {
+//             title: 'Best Results',
+//             items: [
+//                 'Scan documents flat and well-lit',
+//                 'Clean documents before scanning',
+//                 'Avoid shadows and reflections',
+//                 'Use 300+ DPI for original scans'
+//             ]
+//         }
+//     ];
 
-    tipsGrid.innerHTML = conciseTips.map(card => `
-        <div class="tip-card">
-            <div class="tip-title">${card.title}</div>
-            <ul class="tip-list">
-                ${card.items.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-        </div>
-    `).join('');
-}
+//     tipsGrid.innerHTML = conciseTips.map(card => `
+//         <div class="tip-card">
+//             <div class="tip-title">${card.title}</div>
+//             <ul class="tip-list">
+//                 ${card.items.map(item => `<li>${item}</li>`).join('')}
+//             </ul>
+//         </div>
+//     `).join('');
+// }
 
 // Initialize DPI explanation
 updateDpiExplanation();
