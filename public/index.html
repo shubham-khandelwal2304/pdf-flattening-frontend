@@ -15,9 +15,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0a0a0a;
             min-height: 100vh;
-            color: #333;
+            color: #ffffff;
         }
 
         .container {
@@ -46,18 +46,20 @@
         }
 
         .main-card {
-            background: white;
+            background: #1a1a1a;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid #2a2a2a;
             overflow: hidden;
             margin-bottom: 30px;
         }
 
         .card-header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 30px;
             text-align: center;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
 
         .card-header h2 {
@@ -76,25 +78,27 @@
         }
 
         .upload-area {
-            border: 3px dashed #d1d5db;
+            border: 3px dashed #4a4a4a;
             border-radius: 15px;
             padding: 60px 20px;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            background: #f9fafb;
+            background: #1a1a1a;
             margin-bottom: 30px;
         }
 
         .upload-area:hover {
-            border-color: #4f46e5;
-            background: #f0f4ff;
+            border-color: #8b5cf6;
+            background: #1a1a1a;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
         }
 
         .upload-area.dragover {
-            border-color: #4f46e5;
-            background: #e0e7ff;
+            border-color: #8b5cf6;
+            background: #1a1a1a;
             transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
         }
 
         .upload-icon {
@@ -104,12 +108,12 @@
         }
 
         .upload-area:hover .upload-icon {
-            color: #4f46e5;
+            color: #8b5cf6;
         }
 
         .upload-text {
             font-size: 1.2rem;
-            color: #6b7280;
+            color: #ffffff;
             margin-bottom: 10px;
         }
 
@@ -123,17 +127,18 @@
         }
 
         .settings-section {
-            background: #f8fafc;
+            background: #1a1a1a;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
+            border: 1px solid #2a2a2a;
         }
 
         .settings-title {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 20px;
-            color: #374151;
+            color: #ffffff;
         }
 
         .settings-grid {
@@ -150,7 +155,7 @@
         .setting-label {
             font-weight: 500;
             margin-bottom: 10px;
-            color: #374151;
+            color: #ffffff;
         }
 
         .dpi-selector {
@@ -162,16 +167,18 @@
         .dpi-input {
             width: 100px;
             padding: 10px;
-            border: 2px solid #d1d5db;
+            border: 2px solid #4a4a4a;
             border-radius: 8px;
             font-size: 1rem;
             text-align: center;
+            background: #1a1a1a;
+            color: #ffffff;
         }
 
         .dpi-input:focus {
             outline: none;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
 
         .dpi-presets {
@@ -182,23 +189,24 @@
 
         .dpi-preset {
             padding: 6px 12px;
-            background: white;
-            border: 2px solid #d1d5db;
+            background: #1a1a1a;
+            border: 2px solid #4a4a4a;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
+            color: #ffffff;
             transition: all 0.2s ease;
         }
 
         .dpi-preset:hover {
-            border-color: #4f46e5;
-            color: #4f46e5;
+            border-color: #8b5cf6;
+            color: #8b5cf6;
         }
 
         .dpi-preset.active {
-            background: #4f46e5;
+            background: #8b5cf6;
             color: white;
-            border-color: #4f46e5;
+            border-color: #8b5cf6;
         }
 
         .quality-toggle {
@@ -206,20 +214,21 @@
             align-items: center;
             gap: 15px;
             padding: 20px;
-            background: white;
+            background: #1a1a1a;
             border-radius: 10px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid #4a4a4a;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .quality-toggle:hover {
-            border-color: #4f46e5;
+            border-color: #8b5cf6;
         }
 
         .quality-toggle.active {
-            border-color: #4f46e5;
-            background: #f0f4ff;
+            border-color: #8b5cf6;
+            background: #1a1a1a;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
         }
 
         .toggle-switch {
@@ -232,7 +241,7 @@
         }
 
         .toggle-switch.active {
-            background: #4f46e5;
+            background: #8b5cf6;
         }
 
         .toggle-knob {
@@ -258,6 +267,7 @@
         .quality-title {
             font-weight: 600;
             margin-bottom: 5px;
+            color: #ffffff;
         }
 
         .quality-description {
@@ -268,7 +278,7 @@
         .process-button {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             border: none;
             border-radius: 12px;
@@ -280,11 +290,12 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
 
         .process-button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
         }
 
         .process-button:disabled {
@@ -303,10 +314,10 @@
         }
 
         .progress-card {
-            background: #f8fafc;
+            background: #1a1a1a;
             border-radius: 15px;
             padding: 30px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid #4a4a4a;
         }
 
         .progress-header {
@@ -319,7 +330,7 @@
         .progress-title {
             font-size: 1.2rem;
             font-weight: 600;
-            color: #374151;
+            color: #ffffff;
         }
 
         .progress-status {
@@ -352,7 +363,7 @@
         .progress-bar {
             width: 100%;
             height: 8px;
-            background: #e5e7eb;
+            background: #4a4a4a;
             border-radius: 4px;
             overflow: hidden;
             margin-bottom: 15px;
@@ -360,7 +371,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            background: linear-gradient(90deg, #8b5cf6, #a855f7);
             border-radius: 4px;
             transition: width 0.3s ease;
             width: 0%;
@@ -425,17 +436,19 @@
         }
 
         .tips-section {
-            background: white;
+            background: #1a1a1a;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid #2a2a2a;
             overflow: hidden;
         }
 
         .tips-header {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 30px;
             text-align: center;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
 
         .tips-content {
@@ -449,16 +462,17 @@
         }
 
         .tip-card {
-            background: #f8fafc;
+            background: #1a1a1a;
             border-radius: 10px;
             padding: 20px;
-            border-left: 4px solid #10b981;
+            border-left: 4px solid #8b5cf6;
+            border: 1px solid #2a2a2a;
         }
 
         .tip-title {
             font-size: 1rem;
             font-weight: 600;
-            color: #374151;
+            color: #ffffff;
             margin-bottom: 12px;
         }
 
@@ -478,26 +492,27 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: #10b981;
+            color: #8b5cf6;
             font-weight: bold;
         }
 
         .dpi-explanation {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
+            background: #1a1a1a;
+            border: 1px solid #4a4a4a;
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
             font-size: 0.9rem;
-            color: #1e40af;
+            color: #8b5cf6;
         }
 
         .file-info {
-            background: #f3f4f6;
+            background: #1a1a1a;
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
             display: none;
+            border: 1px solid #4a4a4a;
         }
 
         .file-info.active {
@@ -506,7 +521,7 @@
 
         .file-name {
             font-weight: 500;
-            color: #374151;
+            color: #ffffff;
             margin-bottom: 5px;
         }
 
