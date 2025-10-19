@@ -439,27 +439,27 @@
         }
 
         .tips-content {
-            padding: 40px;
+            padding: 30px;
         }
 
         .tips-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .tip-card {
             background: #f8fafc;
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: 10px;
+            padding: 20px;
             border-left: 4px solid #10b981;
         }
 
         .tip-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #374151;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .tip-list {
@@ -467,10 +467,11 @@
         }
 
         .tip-list li {
-            padding: 5px 0;
+            padding: 3px 0;
             color: #6b7280;
             position: relative;
-            padding-left: 20px;
+            padding-left: 18px;
+            font-size: 0.9rem;
         }
 
         .tip-list li:before {
@@ -539,6 +540,11 @@
 
             .tips-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .tips-content {
+                padding: 20px;
             }
         }
 
@@ -889,86 +895,30 @@
             processButton.innerHTML = '<i class="fas fa-magic"></i> Flatten PDF';
         }
 
-        async function loadOCRTips() {
-            try {
-                // Try to load from backend if API URL is set, otherwise use default tips
-                if (apiBaseUrl) {
-                    const response = await fetch(`${apiBaseUrl}/api/ocr-tips`);
-                    const tips = await response.json();
-                    displayTips(tips);
-                } else {
-                    displayDefaultTips();
-                }
-            } catch (error) {
-                console.error('Failed to load OCR tips:', error);
-                displayDefaultTips();
-            }
-        }
-
-        function displayDefaultTips() {
-            const defaultTips = {
-                "dpi_settings": {
-                    "400": "Basic quality for very clear documents",
-                    "500": "Good for clear, typed documents", 
-                    "550": "Balanced quality between standard and optimal",
-                    "600": "Optimal for most invoices and forms (recommended)",
-                    "700": "Enhanced quality for documents with small text",
-                    "800": "Better for poor quality scans or complex layouts",
-                    "900": "High quality for very small text or faded documents",
-                    "1000": "Ultra-high quality for extremely difficult documents",
-                    "1100": "Near-maximum quality for the most challenging scans",
-                    "1200": "Maximum quality for very difficult documents",
-                    "1500": "Professional-grade quality for critical documents",
-                    "1800": "Ultra-professional quality for forensic-level OCR",
-                    "2400": "Maximum possible quality for the most challenging documents"
-                },
-                "general_tips": [
-                    "Use higher DPI for documents with small text",
-                    "Grayscale mode is automatically used for better text recognition",
-                    "Higher DPI = larger file sizes but better OCR accuracy",
-                    "Advanced compression preserves maximum quality",
-                    "DPI is NEVER reduced - quality is always preserved",
-                    "Files may exceed 20MB to maintain maximum quality"
-                ],
-                "max_quality_mode": [
-                    "Enables anti-aliasing for smoother text edges",
-                    "Uses 1.5x effective DPI for rendering (e.g., 1200 DPI becomes 1800 DPI rendering)",
-                    "Optimized matrix transformations for better text clarity",
-                    "Recommended for the most challenging documents",
-                    "Will significantly increase processing time and file sizes",
-                    "Advanced compression maintains maximum quality without DPI reduction"
-                ],
-                "troubleshooting": [
-                    "If OCR still fails, try scanning the original document at 300+ DPI",
-                    "Ensure documents are flat and properly aligned",
-                    "Avoid shadows and ensure good lighting when scanning",
-                    "Clean documents before scanning to remove dust/smudges"
-                ]
-            };
-            displayTips(defaultTips);
-        }
-
-        function displayTips(tips) {
-            const tipCards = [
+        function loadOCRTips() {
+            // Load concise tips directly without API call for faster loading
+            const conciseTips = [
                 {
-                    title: 'DPI Settings',
-                    items: Object.entries(tips.dpi_settings).slice(0, 6).map(([dpi, desc]) => `${dpi} DPI: ${desc}`)
+                    title: 'Quick Tips',
+                    items: [
+                        '600 DPI recommended for most documents',
+                        'Higher DPI = better OCR but larger files',
+                        'Enable max quality for challenging documents',
+                        'Use grayscale for better text recognition'
+                    ]
                 },
                 {
-                    title: 'General Tips',
-                    items: tips.general_tips
-                },
-                {
-                    title: 'Maximum Quality Mode',
-                    items: tips.max_quality_mode
-                },
-                {
-                    title: 'Troubleshooting',
-                    items: tips.troubleshooting
+                    title: 'Best Results',
+                    items: [
+                        'Scan documents flat and well-lit',
+                        'Clean documents before scanning',
+                        'Avoid shadows and reflections',
+                        'Use 300+ DPI for original scans'
+                    ]
                 }
             ];
 
-            tipsGrid.innerHTML = tipCards.map(card => `
+            tipsGrid.innerHTML = conciseTips.map(card => `
                 <div class="tip-card">
                     <div class="tip-title">${card.title}</div>
                     <ul class="tip-list">
