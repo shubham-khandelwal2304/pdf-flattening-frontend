@@ -27,7 +27,6 @@ body {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .header p {
@@ -39,7 +38,6 @@ body {
 .main-card {
     background: #1a1a1a;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     border: 1px solid #2a2a2a;
     overflow: hidden;
     margin-bottom: 30px;
@@ -281,14 +279,12 @@ body {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
     text-transform: none;
     letter-spacing: 0.5px;
 }
 
 .process-button:hover:not(:disabled) {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.5);
     background: linear-gradient(135deg, #9d6cf7 0%, #8b4aed 100%);
 }
 
@@ -432,7 +428,6 @@ body {
 .tips-section {
     background: #1a1a1a;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     border: 1px solid #2a2a2a;
     overflow: hidden;
 }
@@ -442,7 +437,6 @@ body {
     color: white;
     padding: 30px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
 }
 
 .tips-content {
